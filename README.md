@@ -1,49 +1,69 @@
-A server app built using [Shelf](https://pub.dev/packages/shelf),
-configured to enable running with [Docker](https://www.docker.com/).
+# hello_shelf
 
-This sample code handles HTTP GET requests to `/` and `/echo/<message>`
+![简单服务器端程序](data:image/png;base64,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)
 
-# Running the sample
+一个基于 [Shelf](https://pub.dev/packages/shelf) 的 Dart HTTP 服务示例，支持 Docker 部署。
 
-## Running with the Dart SDK
+## 功能
 
-You can run the example with the [Dart SDK](https://dart.dev/get-dart)
-like this:
+- 支持 GET `/`，返回 `Hello, World!`
+- 支持 GET `/echo/<message>`，返回 `<message>`
 
-```
-$ dart run bin/server.dart
-Server listening on port 8080
-```
+## 运行方式
 
-And then from a second terminal:
-```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+### 使用 Dart SDK 运行
+
+```sh
+dart run bin/server.dart
 ```
 
-## Running with Docker
+默认监听 8080 端口。你可以通过如下命令测试：
 
-If you have [Docker Desktop](https://www.docker.com/get-started) installed, you
-can build and run with the `docker` command:
+```sh
+curl http://0.0.0.0:8080/
+# 输出: Hello, World!
 
-```
-$ docker build . -t myserver
-$ docker run -it -p 8080:8080 myserver
-Server listening on port 8080
-```
-
-And then from a second terminal:
-```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+curl http://0.0.0.0:8080/echo/hello
+# 输出: hello
 ```
 
-You should see the logging printed in the first terminal:
+### 使用 Docker 运行
+
+1. 构建镜像：
+
+    ```sh
+    docker build . -t hello_shelf
+    ```
+
+2. 运行容器：
+
+    ```sh
+    docker run -it -p 8080:8080 hello_shelf
+    ```
+
+3. 用 curl 测试接口（如上）。
+
+## 运行测试
+
+```sh
+dart test
 ```
-2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
-2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
+
+## 依赖
+
+- shelf
+- shelf_router
+- http (仅测试)
+- test (仅测试)
+
+## 目录结构
+
 ```
+bin/server.dart      # 服务主程序
+test/server_test.dart # 单元测试
+Dockerfile           # Docker 支持
+```
+
+---
+
+如需更多信息，请参考源码或 [pubspec.yaml](pubspec.yaml)。
